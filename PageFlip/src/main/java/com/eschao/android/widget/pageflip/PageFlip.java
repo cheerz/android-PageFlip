@@ -224,10 +224,17 @@ public class PageFlip {
     // listener for page flipping
     private OnPageFlipListener mListener;
 
+    // margins
+    private int marginLeft;
+    private int marginTop;
+    private int marginRight;
+    private int marginBottom;
+
+
     /**
      * Constructor
      */
-    public PageFlip(Context context) {
+    public PageFlip(Context context, int marginLeft, int marginTop, int marginRight, int marginBottom) {
         mContext = context;
         mScroller = new Scroller(context);
         mFlipState = PageFlipState.END_FLIP;
@@ -238,6 +245,12 @@ public class PageFlip {
         mIsClickToFlip = true;
         mListener = null;
         mWidthRationOfClickToFlip = WIDTH_RATIO_OF_CLICK_TO_FLIP;
+
+        // init margins
+        this.marginLeft = marginLeft;
+        this.marginTop = marginTop;
+        this.marginRight = marginRight;
+        this.marginBottom = marginBottom;
 
         // init pages
         mPages = new Page[PAGE_SIZE];
@@ -578,14 +591,14 @@ public class PageFlip {
         // landscape
         if (mPageMode == AUTO_PAGE_MODE &&
             mViewRect.surfaceW > mViewRect.surfaceH) {
-            mPages[FIRST_PAGE] = new Page(mViewRect.left, 0,
-                                          mViewRect.top, mViewRect.bottom);
-            mPages[SECOND_PAGE] = new Page(0, mViewRect.right,
-                                           mViewRect.top, mViewRect.bottom);
+            mPages[FIRST_PAGE] = new Page(mViewRect.left + marginLeft, 0,
+                                          mViewRect.top + marginTop, mViewRect.bottom - marginBottom);
+            mPages[SECOND_PAGE] = new Page(0, mViewRect.right - marginRight,
+                                           mViewRect.top + marginTop, mViewRect.bottom - marginBottom);
         }
         else {
-            mPages[FIRST_PAGE] = new Page(mViewRect.left, mViewRect.right,
-                                          mViewRect.top, mViewRect.bottom);
+            mPages[FIRST_PAGE] = new Page(mViewRect.left + marginLeft, mViewRect.right - marginRight,
+                                          mViewRect.top + marginTop, mViewRect.bottom - marginBottom);
             mPages[SECOND_PAGE] = null;
         }
     }
