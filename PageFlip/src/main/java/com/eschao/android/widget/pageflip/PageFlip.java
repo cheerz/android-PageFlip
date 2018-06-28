@@ -230,6 +230,12 @@ public class PageFlip {
     private int marginRight;
     private int marginBottom;
 
+    /**
+     * Convenient constructor
+     */
+    public PageFlip(Context context) {
+        this(context, 0, 0, 0, 0);
+    }
 
     /**
      * Constructor
