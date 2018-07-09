@@ -543,8 +543,10 @@ public class PageFlip {
      * @throws PageFlipException if failed to compile and link OpenGL shader
      */
     public void onSurfaceCreated() throws PageFlipException {
-        glClearColor(0, 0, 0, 1f);
-        glClearDepthf(1.0f);
+        // TODO : The page's shadows depend on the background color so we should draw a black background
+        // just under pages taking margins into account
+        glClearColor(0, 0, 0, 0f);
+        glClear(GL_COLOR_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
 
         try {
@@ -594,17 +596,21 @@ public class PageFlip {
             mPages[SECOND_PAGE].deleteAllTextures();
         }
 
+        float leftBookMargin = mViewRect.left + marginLeft;
+        float topBookMargin = mViewRect.top - marginTop;
+        float rightBookMargin = mViewRect.right - marginRight;
+        float bottomBookMargin = mViewRect.bottom + marginBottom;
         // landscape
         if (mPageMode == AUTO_PAGE_MODE &&
             mViewRect.surfaceW > mViewRect.surfaceH) {
-            mPages[FIRST_PAGE] = new Page(mViewRect.left + marginLeft, 0,
-                                          mViewRect.top + marginTop, mViewRect.bottom - marginBottom);
-            mPages[SECOND_PAGE] = new Page(0, mViewRect.right - marginRight,
-                                           mViewRect.top + marginTop, mViewRect.bottom - marginBottom);
+            mPages[FIRST_PAGE] = new Page(leftBookMargin, 0,
+                    topBookMargin, bottomBookMargin);
+            mPages[SECOND_PAGE] = new Page(0, rightBookMargin,
+                    topBookMargin, bottomBookMargin);
         }
         else {
-            mPages[FIRST_PAGE] = new Page(mViewRect.left + marginLeft, mViewRect.right - marginRight,
-                                          mViewRect.top + marginTop, mViewRect.bottom - marginBottom);
+            mPages[FIRST_PAGE] = new Page(leftBookMargin, rightBookMargin,
+                    topBookMargin, bottomBookMargin);
             mPages[SECOND_PAGE] = null;
         }
     }
