@@ -543,8 +543,8 @@ public class PageFlip {
      * @throws PageFlipException if failed to compile and link OpenGL shader
      */
     public void onSurfaceCreated() throws PageFlipException {
-        glClearColor(0, 0, 0, 1f);
-        glClearDepthf(1.0f);
+        glClearColor(0, 0, 0, 0f);
+        glClear(GL_COLOR_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
 
         try {
@@ -598,13 +598,13 @@ public class PageFlip {
         if (mPageMode == AUTO_PAGE_MODE &&
             mViewRect.surfaceW > mViewRect.surfaceH) {
             mPages[FIRST_PAGE] = new Page(mViewRect.left + marginLeft, 0,
-                                          mViewRect.top + marginTop, mViewRect.bottom - marginBottom);
+                                          mViewRect.top - marginTop, mViewRect.bottom + marginBottom);
             mPages[SECOND_PAGE] = new Page(0, mViewRect.right - marginRight,
-                                           mViewRect.top + marginTop, mViewRect.bottom - marginBottom);
+                                           mViewRect.top - marginTop, mViewRect.bottom + marginBottom);
         }
         else {
-            mPages[FIRST_PAGE] = new Page(mViewRect.left + marginLeft, mViewRect.right - marginRight,
-                                          mViewRect.top + marginTop, mViewRect.bottom - marginBottom);
+            mPages[FIRST_PAGE] = new Page(mViewRect.left + marginLeft, mViewRect.right + marginRight,
+                                          mViewRect.top - marginTop, mViewRect.bottom + marginBottom);
             mPages[SECOND_PAGE] = null;
         }
     }
