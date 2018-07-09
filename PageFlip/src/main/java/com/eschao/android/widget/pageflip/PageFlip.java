@@ -543,6 +543,8 @@ public class PageFlip {
      * @throws PageFlipException if failed to compile and link OpenGL shader
      */
     public void onSurfaceCreated() throws PageFlipException {
+        // TODO : The page's shadows depend on the background color so we should draw a black background
+        // just under pages taking margins into account
         glClearColor(0, 0, 0, 0f);
         glClear(GL_COLOR_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
